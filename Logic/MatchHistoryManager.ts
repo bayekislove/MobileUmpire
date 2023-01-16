@@ -1,5 +1,5 @@
 import IdentityManager from "./IdentityManager";
-import StatsType from "./Stats/StatsType";
+import StatsType, { STATS_TYPE_LENGTH } from "./Stats/StatsType";
 
 const fetchDest : string = "http://192.168.1.24:8080"
 
@@ -11,7 +11,32 @@ export type MatchRecord = {
     tournamentName: string,
     round: string,
     result: string,
-    umpire: string
+    umpire? : string,
+    id? : number
+};
+
+const statsMapToArray = (stats : Map<StatsType, number>) => {
+    let statsInArr : Array<number> = new Array<number>();
+    for(let i = 0; i < STATS_TYPE_LENGTH; i++) {
+        statsInArr[i] = stats.get(i as StatsType) as number; 
+    }
+    return statsInArr;
+};
+
+const statsArrayToMap = (stats : Array<number>) => {
+    let statsInMap : Map<StatsType, number> = new Map<StatsType, number>();
+    for(let i = 0; i < stats.length; i++) {
+        statsInMap.set(i as StatsType, stats[i]);
+    }
+    return statsInMap;
+}
+
+const serializeStats = (stats : Array<Map<StatsType, number>>) => {
+    return stats.map(setStat => statsMapToArray(setStat));
+};
+
+const deserializeStats = (stats : Array<Array<number>>) => {
+    return stats.map(setStat => statsArrayToMap(setStat));
 }
 
 export default class MatchHistoryManager {
@@ -33,17 +58,52 @@ export default class MatchHistoryManager {
         });
     }
 
+    static getMatchStatsForMatch = async (matchId : number) => {
+        console.log(`fetching match with id: ${matchId}`);
+        return await fetch(
+            fetchDest + `/stats/${matchId}`, {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then((res) => {
+            let playerAStats = deserializeStats(res[0]);
+            let playerBStats = deserializeStats(res[1]);
+            return [playerAStats, playerBStats];
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
+
     static addMatchToHistory = async (info : MatchRecord,
         statsPlayerA : Array<Map<StatsType, number>>,
         statsPlayerB : Array<Map<StatsType, number>>) => {
+
         info.umpire = await IdentityManager.loggedUser();
+        let matchSummaryWithStats = {info : {...info},
+            statsPlayerA: serializeStats(statsPlayerA),
+            statsPlayerB: serializeStats(statsPlayerB)};
+
         await fetch(fetchDest + '/matches', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(info)
+            body: JSON.stringify(matchSummaryWithStats)
+        });
+    }
+
+    static deleteMatchFromHistory = async (matchId : number) => {
+        await fetch(fetchDest + `/matches/${matchId}`, {
+            method: 'DELETE',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
         });
     }
 };

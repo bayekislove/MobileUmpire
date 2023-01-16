@@ -10,6 +10,7 @@ type LoginNavigation = {
 const LoginPanel = () => {
     const [login, setLogin] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const [errorString, setErrorString] = React.useState("");
     const navigation = useNavigation<LoginNavigation>();
 
     const onLoginPress = async () => {

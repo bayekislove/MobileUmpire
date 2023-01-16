@@ -3,11 +3,12 @@ import { StyleSheet, View, Text } from 'react-native';
 import { MatchRecord } from '../../Logic/MatchHistoryManager';
 
 type MatchEntryProps = {
-    match: MatchRecord
+    match: MatchRecord,
+    showStatsCallback : () => {}
 }
 
 const MatchEntry = (props : MatchEntryProps) => {
-    return <View style={styles.container}>
+    return <View style={styles.container} onTouchEnd={props.showStatsCallback} >
             <Text style={styles.playerName}>
                 {`${props.match.playerAName} - ${props.match.playerBName}`}
             </ Text>

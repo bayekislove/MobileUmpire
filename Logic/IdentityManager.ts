@@ -25,7 +25,7 @@ export default class IdentityManager {
         .then((res) => {
             isUserLoggedCorrectly = res.status == 200;
         })
-        .catch((err) => console.log("błąd"));
+        .catch((err) => console.log(err));
         if(isUserLoggedCorrectly) {
             await SecureStore.setItemAsync(loggedUserKey, login);
         }

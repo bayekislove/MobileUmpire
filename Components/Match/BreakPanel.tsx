@@ -11,7 +11,7 @@ type BreakPanelProps = {
 
 export const BreakPanel = (props : BreakPanelProps) => {
 
-    const [breakInfoVisible, setBreakInfoVisible] = React.useState(false);
+    const [breakInfoVisible, setBreakInfoVisible] = React.useState<boolean>(false);
     const [playerRequestingBreak, setPlayerRequestingBreak] = React.useState<Player>();
 
     const createBreakInfoModal = (player: Player) => {

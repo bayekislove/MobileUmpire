@@ -14,9 +14,15 @@ type ToLoginNavigation = {
     navigate: (value: string) => void;
 };
 
+type ToStatsNavigation = {
+    navigate: (value: string, {}) => void;
+}
+
 const AccountPanel = () => {
 
     const toLoginNavigation = useNavigation<ToLoginNavigation>();
+    const toStatsNavigation = useNavigation<ToStatsNavigation>();
+
     const [createNewMatchVisible, setCreateNewMatchVisible] = React.useState(false);
     const [matchHistory, setMatchHistory] = React.useState<MatchRecord[]>([]);
     const [loggedUser, setLoggedUser] = React.useState("");
@@ -44,8 +50,20 @@ const AccountPanel = () => {
 
     const getMatchEntries = (matchRecords : MatchRecord[]) => {
         return matchRecords.map(
-            (matchRecord, i) => <MatchEntry match={matchRecord} key={i}/>);
+            (matchRecord, i) => <MatchEntry match={matchRecord} key={i}
+                showStatsCallback={getShowMatchStatsCallback(matchRecord.id as number)} />);
     };
+
+    const getShowMatchStatsCallback = (matchId : number) => {
+        return async () => {
+            let stats = await MatchHistoryManager.getMatchStatsForMatch(matchId);
+            console.log(stats);
+            console.log(matchId);
+            toStatsNavigation.navigate('Stats', {
+                matchInfo: matchHistory.find(match => match.id == matchId)
+            });
+        }
+    }
 
     const createNewMatch = () => {
         setCreateNewMatchVisible(true);

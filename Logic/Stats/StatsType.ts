@@ -1,3 +1,5 @@
+export const STATS_TYPE_LENGTH : number = 7;
+
 enum StatsStype {
     ACES,
     FIRST_SERVES_IN,

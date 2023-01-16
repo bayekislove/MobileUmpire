@@ -1,3 +1,4 @@
+import { useFocusEffect } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, Text, Button, TextInput, Modal, View } from 'react-native';
 
@@ -9,10 +10,30 @@ type BreakInfoProps = {
 };
 
 const BreakInfo = (props : BreakInfoProps) => {
+    const [elapsedSeconds, setElapsedSeconds] = React.useState<number>(0);
+
+    React.useEffect(() => {
+        setElapsedSeconds(0);
+    }, [props.isVisible]);
+
+    React.useEffect(() => {
+        const timer = setInterval(() => setElapsedSeconds(elapsedSeconds + 1), 1000);
+        return () => clearInterval(timer);
+    }, [elapsedSeconds]);
+
+    const formatElapsedSecondsToStr = () => {
+        let minutes : number = Math.floor(elapsedSeconds / 60);
+        let seconds : number = elapsedSeconds % 60;
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    };
+
     return (<Modal visible={props.isVisible} transparent={true} style={styles.centeredModal}>
             <View style={styles.container}>
                 <Text style={styles.requestingUserInfo}>
                     {`Break for: ${props.requestingPlayerName}`}
+                </Text>
+                <Text style={styles.breakDurationText}>
+                    {`Duration: ${formatElapsedSecondsToStr()}`}
                 </Text>
                 <View style={styles.buttons}>
                     <Button title={"RETIRE"} color="#ce1616"
@@ -45,6 +66,11 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     
+    breakDurationText: {
+        textAlign: 'center',
+        fontSize: 20
+    },
+
     buttons: {
         flexDirection: 'row', 
         justifyContent: 'space-between', 

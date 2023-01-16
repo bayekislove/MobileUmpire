@@ -29,12 +29,13 @@ const MatchPanel = ({route} : {route : any}) => {
     React.useEffect(() => {
         const timer = setInterval(() => {elapsedSeconds = elapsedSeconds + 1; console.log(elapsedSeconds)}, 1000);
         return () => clearInterval(timer);
-    }, [elapsedSeconds]);
+    }, []);
 
     const formatSecondsToStr = (seconds : number) => {
         const hours : string = `${Math.floor(seconds / 3600)}`;
         const minutes : string = `${Math.floor(seconds / 60)}`;
-        return `${hours}:${minutes.padStart(2, '0')}`
+        console.log(seconds, `${hours}:${minutes.padStart(2, '0')}`);
+        return `${hours}:${minutes.padStart(2, '0')}`;
     };
 
     const getNameByPlayer = (player : Player) => {

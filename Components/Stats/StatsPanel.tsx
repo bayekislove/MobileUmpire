@@ -15,7 +15,11 @@ type StatsPanelProps = {
 
 export const getMatchResult = (playerAScore: Array<number>, playerBScore: Array<number>) => {
     let setsStr : Array<string> = new Array<string>();
-    for(let i = 0; i < playerAScore.length; i++) {
+    setsStr.push(`${playerAScore[0]}:${playerBScore[0]}`);
+    for(let i = 1; i < playerAScore.length; i++) {
+        if(playerAScore[i] == 0 && playerBScore[i] == 0){
+            continue;
+        }
         setsStr.push(`${playerAScore[i]}:${playerBScore[i]}`);
     };
     return setsStr.join(" ");

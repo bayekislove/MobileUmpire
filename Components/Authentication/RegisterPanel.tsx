@@ -8,24 +8,51 @@ type RegisterNavigation = {
     navigate: (value: string) => void;
 }
 
-const LoginPanel = () => {
+const RegisterPanel = () => {
     const [login, setLogin] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const [errorString, setErrorString] = React.useState("");
     const [passwordConfirmation, setPasswordConfirmation] = React.useState("");
+
     const navigation = useNavigation<RegisterNavigation>()
 
     const redirectToLogin = () => {
         navigation.navigate('Login');
     };
 
+    const passwordHasNumber = () => {
+        return /\d/.test(password);
+    };
+
     const onRegisterClick = async () => {
+        if(password.length < 7) {
+            setErrorString("Password has to be longer than 7 characters!");
+            return;
+        }
+        else if(password.toLowerCase() == password) {
+            setErrorString("Password has have at least one capital letter!");
+            return;
+        }
+        else if(passwordHasNumber()) {
+            setErrorString("Password has have at least one number!");
+            return;
+        }
+        else if(password != passwordConfirmation) {
+            setErrorString("Passwords have to be exact!");
+            return;
+        }
+
         if(await IdentityManager.Register(login, password, passwordConfirmation)){
+            setErrorString("");
             navigation.navigate('Login');
-        };
+        } else {
+            setErrorString("Error while registration :c");
+        }
     };
 
     return (
         <View style={styles.container}>
+            <Text style={styles.errorDescription}>{`${errorString}`}</Text>
             <Text style={styles.inputDescription}>{'Username'}</Text>
             <TextInput style={styles.input} textContentType='username'
                 onChangeText={login => setLogin(login)}/>
@@ -51,7 +78,7 @@ const LoginPanel = () => {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 200,
+        marginTop: 170,
         marginHorizontal: 40,
     },
 
@@ -68,6 +95,12 @@ const styles = StyleSheet.create({
         marginHorizontal: 60
     },
 
+    errorDescription: {
+        fontSize: 20,
+        textAlign: 'center',
+        color: "#CC2B2B"
+    },
+
     inputDescription: {
         fontSize: 20,
         textAlign: 'center'
@@ -81,4 +114,4 @@ const styles = StyleSheet.create({
     }
   });
 
-export default LoginPanel;
+export default RegisterPanel;
