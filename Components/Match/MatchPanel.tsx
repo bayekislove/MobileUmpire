@@ -44,7 +44,6 @@ const MatchPanel = ({route} : {route : any}) => {
         } else if(player == Player.PLAYER_B) {
             return route.params.playerBName;
         }
-        return "ERROR No player found ERROR";
     }
 
     const sendMatchFinishedInfo = () => {
