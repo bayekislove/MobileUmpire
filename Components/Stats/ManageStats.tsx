@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
     },
 
     buttons: {
-        marginVertical: 20,
         marginHorizontal: 40,
         flexDirection: 'row',
         justifyContent: 'space-between'

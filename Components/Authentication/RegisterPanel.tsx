@@ -21,10 +21,12 @@ const RegisterPanel = () => {
     };
 
     const passwordHasNumber = () => {
-        return /\d/.test(password);
+        console.log(password)
+        return /[0-9]/.test(password);
     };
 
     const onRegisterClick = async () => {
+        setErrorString("");
         if(password.length < 7) {
             setErrorString("Password has to be longer than 7 characters!");
             return;
@@ -33,7 +35,7 @@ const RegisterPanel = () => {
             setErrorString("Password has have at least one capital letter!");
             return;
         }
-        else if(passwordHasNumber()) {
+        else if(!passwordHasNumber()) {
             setErrorString("Password has have at least one number!");
             return;
         }
