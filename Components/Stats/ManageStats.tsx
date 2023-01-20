@@ -75,7 +75,7 @@ const ManageStats = ({route} : {route : any}) => {
 
     return (
         <View>
-            {getStatsPanelIfFetched()}            
+            {getStatsPanelIfFetched()}
             <View style={styles.buttons}>
                 <Button title={"Delete match"}
                     onPress={deleteMatch} color='#f54260' />

@@ -1,13 +1,22 @@
 import * as SecureStore from 'expo-secure-store';
 
-//const fetchDest : string = "https://mobile-umpire.onrender.com";
-const fetchDest : string = "http://192.168.1.24:8080";
+const fetchDest : string = "https://mobile-umpire.onrender.com";
+//const fetchDest : string = "http://192.168.1.24:8054";
 const loggedUserKey = "loggedUser";
+const tokenKey = "token";
 
 export default class IdentityManager {
     static async loggedUser() {
         let result = await (SecureStore.getItemAsync(loggedUserKey)) as string;
         return result ? result : "User not logged";
+    }
+
+    static async setToken(token : string) {
+        await SecureStore.setItemAsync(tokenKey, token);
+    }
+
+    static async getToken() : Promise<string> {
+        return await SecureStore.getItemAsync(tokenKey) as string;
     }
 
     static async Login(login: string, password: string) : Promise<boolean> {
@@ -24,7 +33,14 @@ export default class IdentityManager {
             })
         })
         .then((res) => {
-            isUserLoggedCorrectly = (res.status == 200);
+            if(res.status == 200) {
+                isUserLoggedCorrectly = true;
+                return res.json();
+            };
+        })
+        .then((res) => {
+            console.log("Setting token" + res.token);
+            IdentityManager.setToken(res.token);
         })
         .catch((err) => console.log(err));
 

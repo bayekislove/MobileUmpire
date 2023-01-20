@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
 import LoginPanel from './Components/Authentication/LoginPanel';
 import RegisterPanel from './Components/Authentication/RegisterPanel';
 import MatchPanel from './Components/Match/MatchPanel';
@@ -8,10 +7,12 @@ import ManageStats from './Components/Stats/ManageStats';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import * as MediaLibrary from 'expo-media-library';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [status, requestPermission] = MediaLibrary.usePermissions();
 
   return <NavigationContainer>
       <Stack.Navigator initialRouteName='Authentication'

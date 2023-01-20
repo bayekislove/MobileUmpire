@@ -1,8 +1,8 @@
 import IdentityManager from "./IdentityManager";
 import StatsType, { STATS_TYPE_LENGTH } from "./Stats/StatsType";
 
-//const fetchDest : string = "http://mobile-umpire.onrender.com";
-const fetchDest : string = "http://192.168.1.24:8080";
+const fetchDest : string = "http://mobile-umpire.onrender.com";
+//const fetchDest : string = "http://192.168.1.24:8054";
 
 export type MatchRecord = {
     playeraname : string,
@@ -12,7 +12,6 @@ export type MatchRecord = {
     tournamentname: string,
     round: string,
     result: string,
-    umpire? : string,
     id? : number
 };
 
@@ -44,10 +43,11 @@ export default class MatchHistoryManager {
 
     static getMatchHistoryForPlayer = async () => {
         return await fetch(
-            fetchDest + `/matches/${await IdentityManager.loggedUser()}`, {
+            fetchDest + `/matches`, {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + await IdentityManager.getToken()
             }
         })
         .then(response => response.json())
@@ -67,6 +67,7 @@ export default class MatchHistoryManager {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + await IdentityManager.getToken()
             }
         })
         .then(response => response.json())
@@ -84,7 +85,6 @@ export default class MatchHistoryManager {
         statsPlayerA : Array<Map<StatsType, number>>,
         statsPlayerB : Array<Map<StatsType, number>>) => {
 
-        info.umpire = await IdentityManager.loggedUser();
         let matchSummaryWithStats = {info : {...info},
             statsPlayerA: serializeStats(statsPlayerA),
             statsPlayerB: serializeStats(statsPlayerB)};
@@ -94,6 +94,7 @@ export default class MatchHistoryManager {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + await IdentityManager.getToken()
             },
             body: JSON.stringify(matchSummaryWithStats)
         });
@@ -105,6 +106,7 @@ export default class MatchHistoryManager {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + await IdentityManager.getToken()
             },
         });
     }
