@@ -16,7 +16,9 @@ const LoginPanel = () => {
     const onLoginPress = async () => {
         if(await IdentityManager.Login(login, password)){
             navigation.navigate('Account');
-        };
+        } else {
+            setErrorString("Incorrect username or password!");
+        }
     };
 
     const redirectToRegister = () => {
@@ -25,21 +27,24 @@ const LoginPanel = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.inputDescription}>{'Username'}</Text>
-            <TextInput style={styles.input} textContentType='username'
-                onChangeText={login => setLogin(login)}/>
+            <Text style={styles.errorDescription}>{`${errorString}`}</Text>
+            <View style={styles.formContainer}>
+                <Text style={styles.inputDescription}>{'Username'}</Text>
+                <TextInput style={styles.input} textContentType='username'
+                    onChangeText={login => setLogin(login)}/>
 
-            <Text style={styles.inputDescription}>{'Password'}</Text>
-            <TextInput style={styles.input} secureTextEntry={true}
-                onChangeText={password => setPassword(password)}/>
+                <Text style={styles.inputDescription}>{'Password'}</Text>
+                <TextInput style={styles.input} secureTextEntry={true}
+                    onChangeText={password => setPassword(password)}/>
 
-            <View style={styles.button}>
-                <Button onPress={onLoginPress} title="Login"/>
+                <View style={styles.button}>
+                    <Button onPress={onLoginPress} title="Login"/>
+                </View>
+
+                <Text style={styles.redirectText} onPress={redirectToRegister}>
+                    {"Don't have an account? Register!"}
+                </Text>
             </View>
-
-            <Text style={styles.redirectText} onPress={redirectToRegister}>
-                {"Don't have an account? Register!"}
-            </Text>
         </View>
     );
   
@@ -47,8 +52,8 @@ const LoginPanel = () => {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 230,
-        marginHorizontal: 40,
+        marginTop: 190,
+        marginHorizontal: 20,
     },
 
     input: {
@@ -62,6 +67,18 @@ const styles = StyleSheet.create({
     button: {
         marginVertical: 30,
         marginHorizontal: 60
+    },
+
+    formContainer: {
+        marginHorizontal: 20,
+        marginTop: 20
+    },
+
+    errorDescription: {
+        fontSize: 20,
+        marginBottom: 10,
+        textAlign: 'center',
+        color: "#CC2B2B",
     },
 
     inputDescription: {

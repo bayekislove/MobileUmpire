@@ -1,6 +1,7 @@
 import * as SecureStore from 'expo-secure-store';
 
-const fetchDest : string = "http://192.168.1.24:8080"
+//const fetchDest : string = "https://mobile-umpire.onrender.com";
+const fetchDest : string = "http://192.168.1.24:8080";
 const loggedUserKey = "loggedUser";
 
 export default class IdentityManager {
@@ -23,9 +24,10 @@ export default class IdentityManager {
             })
         })
         .then((res) => {
-            isUserLoggedCorrectly = res.status == 200;
+            isUserLoggedCorrectly = (res.status == 200);
         })
         .catch((err) => console.log(err));
+
         if(isUserLoggedCorrectly) {
             await SecureStore.setItemAsync(loggedUserKey, login);
         }
@@ -49,8 +51,11 @@ export default class IdentityManager {
                 password: password
             })
         }).then((res) => {
+            console.log(JSON.stringify(res));
+            console.log(res.status);
             isUserRegisteredCorrectly = res.status == 200;
-        });
+        })
+        .catch((err) => console.log(err));
         if(isUserRegisteredCorrectly) {
             await SecureStore.setItemAsync(loggedUserKey, login);
         }

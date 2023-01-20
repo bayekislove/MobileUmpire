@@ -81,6 +81,7 @@ const StatsPanel = (props : StatsPanelProps) => {
 const styles = StyleSheet.create({ 
     container: {
         marginTop: 100,
+        marginBottom: 20,
         marginHorizontal: 20,
         flexDirection: 'column'
     },

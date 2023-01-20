@@ -10,7 +10,7 @@ type MatchEntryProps = {
 const MatchEntry = (props : MatchEntryProps) => {
     return <View style={styles.container} onTouchEnd={props.showStatsCallback} >
             <Text style={styles.playerName}>
-                {`${props.match.playerAName} - ${props.match.playerBName}`}
+                {`${props.match.playeraname} - ${props.match.playerbname}`}
             </ Text>
             <View style={styles.matchAndTimeContainer}>
                 <Text style={styles.playerName}>
@@ -21,7 +21,7 @@ const MatchEntry = (props : MatchEntryProps) => {
                 </ Text>
             </View>
             <Text style={styles.playerName}>
-                {`${props.match.round} of ${props.match.tournamentName} ${props.match.date}`}
+                {`${props.match.round} of ${props.match.tournamentname} ${props.match.date}`}
             </Text>
         </ View>;
 }

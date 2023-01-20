@@ -43,6 +43,7 @@ const AccountPanel = () => {
             })
             .catch((err) => {
                 console.error("Logged user cannot be fetched");
+                console.log(err);
             });
 
             setCreateNewMatchVisible(false);

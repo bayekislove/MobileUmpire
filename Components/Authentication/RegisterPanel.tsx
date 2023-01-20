@@ -27,22 +27,22 @@ const RegisterPanel = () => {
 
     const onRegisterClick = async () => {
         setErrorString("");
-        if(password.length < 7) {
-            setErrorString("Password has to be longer than 7 characters!");
-            return;
-        }
-        else if(password.toLowerCase() == password) {
-            setErrorString("Password has have at least one capital letter!");
-            return;
-        }
-        else if(!passwordHasNumber()) {
-            setErrorString("Password has have at least one number!");
-            return;
-        }
-        else if(password != passwordConfirmation) {
-            setErrorString("Passwords have to be exact!");
-            return;
-        }
+        // if(password.length < 7) {
+        //     setErrorString("Password has to be longer than 7 characters!");
+        //     return;
+        // }
+        // else if(password.toLowerCase() == password) {
+        //     setErrorString("Password has have at least one capital letter!");
+        //     return;
+        // }
+        // else if(!passwordHasNumber()) {
+        //     setErrorString("Password has have at least one number!");
+        //     return;
+        // }
+        // else if(password != passwordConfirmation) {
+        //     setErrorString("Passwords have to be exact!");
+        //     return;
+        // }
 
         if(await IdentityManager.Register(login, password, passwordConfirmation)){
             setErrorString("");
@@ -55,24 +55,26 @@ const RegisterPanel = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.errorDescription}>{`${errorString}`}</Text>
-            <Text style={styles.inputDescription}>{'Username'}</Text>
-            <TextInput style={styles.input} textContentType='username'
-                onChangeText={login => setLogin(login)}/>
+            <View style={styles.formContainer}>
+                <Text style={styles.inputDescription}>{'Username'}</Text>
+                <TextInput style={styles.input} textContentType='username'
+                    onChangeText={login => setLogin(login)}/>
 
-            <Text style={styles.inputDescription}>{'Password'}</Text>
-            <TextInput style={styles.input} secureTextEntry={true}
-                onChangeText={password => setPassword(password)}/>
+                <Text style={styles.inputDescription}>{'Password'}</Text>
+                <TextInput style={styles.input} secureTextEntry={true}
+                    onChangeText={password => setPassword(password)}/>
             
-            <Text style={styles.inputDescription}>{'Confirm password'}</Text>
-            <TextInput style={styles.input} secureTextEntry={true}
-                onChangeText={passwordConfirmation => setPasswordConfirmation(passwordConfirmation)}/>
+                <Text style={styles.inputDescription}>{'Confirm password'}</Text>
+                <TextInput style={styles.input} secureTextEntry={true}
+                    onChangeText={passwordConfirmation => setPasswordConfirmation(passwordConfirmation)}/>
 
-            <View style={styles.button}>
-                <Button onPress={onRegisterClick} title="Register"/>
+                <View style={styles.button}>
+                    <Button onPress={onRegisterClick} title="Register"/>
+                </View>
+                <Text style={styles.redirectText} onPress={redirectToLogin}>
+                    {"Already have an account? Login!"}
+                </Text>
             </View>
-            <Text style={styles.redirectText} onPress={redirectToLogin}>
-                {"Already have an account? Login!"}
-            </Text>
         </View>
     );
 
@@ -81,7 +83,7 @@ const RegisterPanel = () => {
 const styles = StyleSheet.create({
     container: {
         marginTop: 170,
-        marginHorizontal: 40,
+        marginHorizontal: 20,
     },
 
     input: {
@@ -97,8 +99,14 @@ const styles = StyleSheet.create({
         marginHorizontal: 60
     },
 
+    formContainer: {
+        marginHorizontal: 20,
+        marginTop: 20
+    },
+
     errorDescription: {
         fontSize: 20,
+        marginBottom: 10,
         textAlign: 'center',
         color: "#CC2B2B"
     },

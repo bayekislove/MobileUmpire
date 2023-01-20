@@ -1,14 +1,15 @@
 import IdentityManager from "./IdentityManager";
 import StatsType, { STATS_TYPE_LENGTH } from "./Stats/StatsType";
 
-const fetchDest : string = "http://192.168.1.24:8080"
+//const fetchDest : string = "http://mobile-umpire.onrender.com";
+const fetchDest : string = "http://192.168.1.24:8080";
 
 export type MatchRecord = {
-    playerAName : string,
-    playerBName : string,
+    playeraname : string,
+    playerbname : string,
     duration: string,
     date: string,
-    tournamentName: string,
+    tournamentname: string,
     round: string,
     result: string,
     umpire? : string,
@@ -51,6 +52,7 @@ export default class MatchHistoryManager {
         })
         .then(response => response.json())
         .then((res) => {
+            console.log(res as Array<MatchRecord>);
             return res as Array<MatchRecord>;
         })
         .catch((err) => {

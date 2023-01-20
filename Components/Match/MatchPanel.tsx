@@ -64,11 +64,11 @@ const MatchPanel = ({route} : {route : any}) => {
 
     const sendMatchFinishedInfoWithResult = (result : string) => {
         let savedMatch : MatchRecord = {
-            playerAName: route.params.playerAName,
-            playerBName: route.params.playerBName,
+            playeraname: route.params.playerAName,
+            playerbname: route.params.playerBName,
             duration: formatSecondsToStr(elapsedSeconds),
             date: route.params.date,
-            tournamentName: route.params.tournamentName,
+            tournamentname: route.params.tournamentName,
             round: route.params.tournamentRound,
             result: result,
             umpire: ''

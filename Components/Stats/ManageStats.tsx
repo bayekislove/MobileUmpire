@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
 import StatsType from '../../Logic/Stats/StatsType';
-import StatEntry from './StatEntry';
 import StatsPanel from './StatsPanel';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import MatchHistoryManager from '../../Logic/MatchHistoryManager';
@@ -62,8 +61,8 @@ const ManageStats = ({route} : {route : any}) => {
     const getStatsPanelIfFetched = () => {
         if(areStatsFetched) {
             return <StatsPanel
-                playerAName={route.params.matchInfo.playerAName}
-                playerBName={route.params.matchInfo.playerBName}
+                playerAName={route.params.matchInfo.playeraname}
+                playerBName={route.params.matchInfo.playerbname}
                 playerAScore={adaptMatchScoreForStatsPanel(route.params.matchInfo.result)[0]}
                 playerBScore={adaptMatchScoreForStatsPanel(route.params.matchInfo.result)[1]}
                 playerAStats={playerAStats as Map<StatsType, number>[]}
