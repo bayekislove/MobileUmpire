@@ -1,11 +1,11 @@
 import * as SecureStore from 'expo-secure-store';
 
 const fetchDest : string = "https://mobile-umpire.onrender.com";
-//const fetchDest : string = "http://192.168.1.24:8054";
 const loggedUserKey = "loggedUser";
 const tokenKey = "token";
 
 export default class IdentityManager {
+
     static async loggedUser() {
         let result = await (SecureStore.getItemAsync(loggedUserKey)) as string;
         return result ? result : "User not logged";
@@ -16,7 +16,8 @@ export default class IdentityManager {
     }
 
     static async getToken() : Promise<string> {
-        return await SecureStore.getItemAsync(tokenKey) as string;
+        const token = await SecureStore.getItemAsync(tokenKey);
+        return token ? token : "";
     }
 
     static async Login(login: string, password: string) : Promise<boolean> {
@@ -51,9 +52,9 @@ export default class IdentityManager {
     }
 
     static async Register(login: string, password: string, repeatedPassword: string) {
-        if(password != repeatedPassword) {
-            return false;
-        };
+        // if(password != repeatedPassword) {
+        //     return false;
+        // };
 
         let isUserRegisteredCorrectly : boolean = false;
         await fetch(fetchDest + '/register', {
@@ -72,13 +73,12 @@ export default class IdentityManager {
             isUserRegisteredCorrectly = res.status == 200;
         })
         .catch((err) => console.log(err));
-        if(isUserRegisteredCorrectly) {
-            await SecureStore.setItemAsync(loggedUserKey, login);
-        }
+
         return isUserRegisteredCorrectly;
     }
 
     static async Logout() {
         await SecureStore.deleteItemAsync(loggedUserKey);
+        await SecureStore.deleteItemAsync(tokenKey);
     }
 }

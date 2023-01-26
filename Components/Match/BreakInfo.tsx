@@ -1,6 +1,5 @@
-import { useFocusEffect } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, Text, Button, TextInput, Modal, View } from 'react-native';
+import { StyleSheet, Text, Button, Modal, View } from 'react-native';
 
 type BreakInfoProps = {
     isVisible: boolean,

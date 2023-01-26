@@ -7,6 +7,15 @@ type MatchEntryProps = {
     showStatsCallback : () => {}
 }
 
+export const getTournamentInfo = (round : string, tournament : string) => {
+    if(round == "" || tournament == "") {
+        return "";
+    }
+    else {
+        return `${round} of ${tournament}`;
+    }
+};
+
 const MatchEntry = (props : MatchEntryProps) => {
     return <View style={styles.container} onTouchEnd={props.showStatsCallback} >
             <Text style={styles.playerName}>
@@ -21,7 +30,7 @@ const MatchEntry = (props : MatchEntryProps) => {
                 </ Text>
             </View>
             <Text style={styles.playerName}>
-                {`${props.match.round} of ${props.match.tournamentname} ${props.match.date}`}
+                {`${getTournamentInfo(props.match.round, props.match.tournamentname)} ${props.match.date}`}
             </Text>
         </ View>;
 }

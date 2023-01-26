@@ -1,6 +1,7 @@
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { StyleSheet, View, Text, Button, ScrollView } from 'react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+
 import IdentityManager from '../../Logic/IdentityManager';
 import MatchHistoryManager, { MatchRecord } from '../../Logic/MatchHistoryManager';
 import MatchEntry from './MatchEntry';
@@ -34,7 +35,7 @@ const AccountPanel = () => {
                 setMatchHistory(res as MatchRecord[]);
             })
             .catch((err) => {
-                console.log("ERROR");
+                console.log(err);
             });
 
             IdentityManager.loggedUser()

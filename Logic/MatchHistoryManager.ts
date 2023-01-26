@@ -1,8 +1,7 @@
 import IdentityManager from "./IdentityManager";
 import StatsType, { STATS_TYPE_LENGTH } from "./Stats/StatsType";
 
-const fetchDest : string = "http://mobile-umpire.onrender.com";
-//const fetchDest : string = "http://192.168.1.24:8054";
+const fetchDest : string = "https://mobile-umpire.onrender.com";
 
 export type MatchRecord = {
     playeraname : string,
@@ -84,7 +83,7 @@ export default class MatchHistoryManager {
     static addMatchToHistory = async (info : MatchRecord,
         statsPlayerA : Array<Map<StatsType, number>>,
         statsPlayerB : Array<Map<StatsType, number>>) => {
-
+        console.log(info.duration);
         let matchSummaryWithStats = {info : {...info},
             statsPlayerA: serializeStats(statsPlayerA),
             statsPlayerB: serializeStats(statsPlayerB)};

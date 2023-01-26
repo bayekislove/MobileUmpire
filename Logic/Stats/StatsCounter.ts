@@ -8,10 +8,10 @@ export default class StatsCounter {
 #playerBstats = new Array<Map<StatsType, number>>();
 
 constructor(noOfSets : number) {
-    this.#playerAstats = 
+    this.#playerAstats =
         Array(noOfSets + 1).fill(null).map((_, i) => new Map<StatsType, number>());
 
-    this.#playerBstats = 
+    this.#playerBstats =
         Array(noOfSets + 1).fill(null).map((_, i) => new Map<StatsType, number>());
 
     for(let i = 0; i < noOfSets + 1; i++)

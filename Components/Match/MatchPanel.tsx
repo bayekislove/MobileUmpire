@@ -4,14 +4,15 @@ import { useNavigation } from '@react-navigation/native';
 
 import { Player } from '../../Logic/PointsCounting/Player';
 import ServePanel from './ServePanel';
-import PlayerScore from './PlayerScore';
+import { PlayerScore } from './PlayerScore';
 import ChallangePanel from './ChallangePanel';
 import StatResultButtons from '../Stats/StatResultButtons';
 import StatsPanel, { getMatchResult } from '../Stats/StatsPanel';
 import MatchHistoryManager, { MatchRecord } from '../../Logic/MatchHistoryManager';
 import MatchLogic from '../../Logic/MatchLogic';
-import PointResult from '../../Logic/PointResult';
+import PointResult from '../../Logic/PointsCounting/PointResult';
 import { BreakPanel } from './BreakPanel';
+import { getTournamentInfo } from '../Profile/MatchEntry';
 
 type ToAccountNavigation = {
     navigate: (value: string) => void;
@@ -22,16 +23,17 @@ const MatchPanel = ({route} : {route : any}) => {
     const navigate = useNavigation<ToAccountNavigation>();
 
     const [statsShown, setStatsShown] = React.useState(false);
-    let   [elapsedSeconds, setElapsedSeconds] = React.useState(0);
-    const [matchCounter, setMatchCounter] = React.useState<MatchLogic>(new MatchLogic());
+    const [matchCounter, _] = React.useState<MatchLogic>(new MatchLogic());
     const [updateComponent, setUpdateComponent] = React.useState(0);
 
-    React.useEffect(() => {
-        const timer = setInterval(() => {elapsedSeconds = elapsedSeconds + 1; console.log(elapsedSeconds)}, 1000);
-        return () => clearInterval(timer);
-    }, []);
+    const getElapsedSeconds = () : number => {
+        const matchStart : number = route.params.matchStart;
+        const now : number = new Date().getTime() / 1000;
+        console.log(matchStart, now);
+        return now - matchStart;
+    };
 
-    const formatSecondsToStr = (seconds : number) => {
+    const formatSecondsToStr = (seconds : number) : string => {
         const hours : string = `${Math.floor(seconds / 3600)}`;
         const minutes : string = `${Math.floor(seconds / 60)}`;
         console.log(seconds, `${hours}:${minutes.padStart(2, '0')}`);
@@ -66,12 +68,11 @@ const MatchPanel = ({route} : {route : any}) => {
         let savedMatch : MatchRecord = {
             playeraname: route.params.playerAName,
             playerbname: route.params.playerBName,
-            duration: formatSecondsToStr(elapsedSeconds),
+            duration: formatSecondsToStr(getElapsedSeconds()),
             date: route.params.date,
             tournamentname: route.params.tournamentName,
             round: route.params.tournamentRound,
             result: result,
-            umpire: ''
         };
         MatchHistoryManager.addMatchToHistory(savedMatch, matchCounter.playerAStats, matchCounter.playerBStats);
         navigate.navigate('Account');
@@ -102,14 +103,14 @@ const MatchPanel = ({route} : {route : any}) => {
                 playerBScore={matchCounter.playerBSetsScore}
                 playerAStats={matchCounter.playerAStats}
                 playerBStats={matchCounter.playerBStats}
-                matchDuration={formatSecondsToStr(elapsedSeconds)}
+                matchDuration={formatSecondsToStr(getElapsedSeconds())}
             />
 
         } else {
 
             return (<View style={styles.container}>
                 <Text style={styles.matchInfo}>
-                    {`${route.params.tournamentRound} of ${route.params.tournamentName}`}
+                    {getTournamentInfo(route.params.tournamentRound, route.params.tournamentName)}
                 </Text>
                 <PlayerScore
                     playerName={route.params.playerAName}
@@ -123,7 +124,7 @@ const MatchPanel = ({route} : {route : any}) => {
                 />
                 <ServePanel
                     servingPlayerName={getNameByPlayer(matchCounter.servingPlayer)}
-                    timeout={25}
+                    timeout={matchCounter.timeToServe}
                     isFirstServe={matchCounter.isFirstServe}
                     aceCallback={getPointResultFunction(PointResult.ACE)(matchCounter.servingPlayer)}
                     errorCallback={() => {

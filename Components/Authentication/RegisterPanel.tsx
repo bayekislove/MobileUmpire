@@ -54,6 +54,7 @@ const RegisterPanel = () => {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.appName}>{`MobileUmpire`}</Text>
             <Text style={styles.errorDescription}>{`${errorString}`}</Text>
             <View style={styles.formContainer}>
                 <Text style={styles.inputDescription}>{'Username'}</Text>
@@ -82,7 +83,7 @@ const RegisterPanel = () => {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 170,
+        marginTop: 140,
         marginHorizontal: 20,
     },
 
@@ -102,6 +103,14 @@ const styles = StyleSheet.create({
     formContainer: {
         marginHorizontal: 20,
         marginTop: 20
+    },
+
+    appName: {
+        fontSize: 40,
+        marginBottom: 10,
+        textAlign: 'center',
+        color: '#219ac7',
+        fontWeight: 'bold'
     },
 
     errorDescription: {

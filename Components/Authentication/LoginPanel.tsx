@@ -27,6 +27,7 @@ const LoginPanel = () => {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.appName}>{`MobileUmpire`}</Text>
             <Text style={styles.errorDescription}>{`${errorString}`}</Text>
             <View style={styles.formContainer}>
                 <Text style={styles.inputDescription}>{'Username'}</Text>
@@ -52,7 +53,7 @@ const LoginPanel = () => {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 190,
+        marginTop: 170,
         marginHorizontal: 20,
     },
 
@@ -74,11 +75,19 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
 
+    appName: {
+        fontSize: 40,
+        marginBottom: 10,
+        textAlign: 'center',
+        color: '#219ac7',
+        fontWeight: 'bold'
+    },
+
     errorDescription: {
         fontSize: 20,
         marginBottom: 10,
         textAlign: 'center',
-        color: "#CC2B2B",
+        color: '#cc2b2b',
     },
 
     inputDescription: {

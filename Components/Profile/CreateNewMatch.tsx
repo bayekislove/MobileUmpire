@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, Button, TextInput, Modal } from 'react-native';
 import RoundPicker from './RoundPicker';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 type CreateNewMatchType = {
     isVisible: boolean,
@@ -22,13 +22,22 @@ const CreteNewMatch = (props : CreateNewMatchType) => {
     const [tournamentName, setTournamentName] = React.useState("");
     const [tournamentRound, setTournamentRound] = React.useState("");
 
+    useFocusEffect(
+        React.useCallback(() => {
+           setPlayerAName("");
+           setPlayerBName("");
+           setTournamentName("");
+           setTournamentRound("");
+    }, []));
+
     const startNewMatch = () => {
         toMatchNavigation.navigate('Match', {
             playerAName: playerAName,
             playerBName: playerBName,
             tournamentName: tournamentName,
             tournamentRound: tournamentRound,
-            date: new Date().toDateString()
+            date: new Date().toDateString(),
+            matchStart: new Date().getTime() / 1000
         });
     };
 

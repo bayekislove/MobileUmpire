@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import * as Point from '../../Logic/PointsCounting/Point';
 import { Score } from '../../Logic/PointsCounting/Score';
 
-type PlayerScoreProps = {
+export type PlayerScoreProps = {
   playerName : string,
   score : Score,
   isTiebreak : boolean
@@ -17,10 +17,10 @@ export class PlayerScore extends React.Component<PlayerScoreProps> {
   render(): React.ReactNode {
     return (
       <View style={styles.container}>
-          <Text style={styles.name}>{this.props.playerName}</Text>
-          <Text style={styles.score}>
-            { createScoreView(this.props.score, this.props.isTiebreak) }
-          </Text>
+        <Text style={styles.name}>{this.props.playerName}</Text>
+        <Text style={styles.score}>
+          { createScoreView(this.props.score, this.props.isTiebreak) }
+        </Text>
       </View>
     );
   }
@@ -48,5 +48,3 @@ const styles = StyleSheet.create({
     fontSize: 25
   }
 });
-
-export default PlayerScore;
