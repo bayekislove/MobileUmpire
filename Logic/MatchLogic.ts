@@ -8,17 +8,20 @@ import StatsCounter from "./Stats/StatsCounter";
 import StatsType from "./Stats/StatsType";
 
 const DEFAULT_CHALLANGES_START_VAL = 3;
-const MAX_SETS = 3;
 
 export default class MatchLogic {
 
-    #pointsCounter : SetsCounter = new SetsCounter(MAX_SETS);
-    #serveCounter : ServeCounter = new ServeCounter();
-    #statsCounter : StatsCounter = new StatsCounter(MAX_SETS);
+    #pointsCounter : SetsCounter;
+    #serveCounter : ServeCounter;
+    #statsCounter : StatsCounter;
     #challanges : Map<Player, number> = new Map<Player, number>();
     #timeToServe : number = 25;
 
-    constructor() {
+    constructor(setsToWin : number) {
+        this.#pointsCounter = new SetsCounter(setsToWin);
+        this.#serveCounter = new ServeCounter();
+        this.#statsCounter = new StatsCounter(setsToWin);
+
         this.getCurrentSet.bind(this);
         this.convertPointResultToStatType.bind(this);
         this.handlePointResult.bind(this);
@@ -100,10 +103,8 @@ export default class MatchLogic {
     };
 
     changeTimeoutIfNeeded() {
-        console.log(this.playerASetsScore, this.playerBSetsScore);
         let currentGem = this.playerASetsScore.reduce((sum, gems) => sum + gems, 0) +
             this.playerBSetsScore.reduce((sum, gems) => sum + gems, 0) + 1;
-        console.log(currentGem);
 
         if(this.playerAScore.gems + this.playerBScore.gems == 0 &&
             this.playerAScore.pts + this.playerBScore.pts == 0) {

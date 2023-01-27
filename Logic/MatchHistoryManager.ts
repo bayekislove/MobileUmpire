@@ -51,16 +51,14 @@ export default class MatchHistoryManager {
         })
         .then(response => response.json())
         .then((res) => {
-            console.log(res as Array<MatchRecord>);
             return res as Array<MatchRecord>;
         })
-        .catch((err) => {
-            console.log(err);
+        .catch(e => {
+            console.log(e);
         });
     }
 
     static getMatchStatsForMatch = async (matchId : number) => {
-        console.log(`fetching match with id: ${matchId}`);
         return await fetch(
             fetchDest + `/stats/${matchId}`, {
             headers: {
@@ -75,15 +73,14 @@ export default class MatchHistoryManager {
             let playerBStats = deserializeStats(res[1]);
             return [playerAStats, playerBStats];
         })
-        .catch((err) => {
-            console.log(err);
+        .catch(e => {
+            console.log(e);
         });
     }
 
     static addMatchToHistory = async (info : MatchRecord,
         statsPlayerA : Array<Map<StatsType, number>>,
         statsPlayerB : Array<Map<StatsType, number>>) => {
-        console.log(info.duration);
         let matchSummaryWithStats = {info : {...info},
             statsPlayerA: serializeStats(statsPlayerA),
             statsPlayerB: serializeStats(statsPlayerB)};

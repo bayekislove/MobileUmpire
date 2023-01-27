@@ -40,10 +40,11 @@ export default class IdentityManager {
             };
         })
         .then((res) => {
-            console.log("Setting token" + res.token);
             IdentityManager.setToken(res.token);
         })
-        .catch((err) => console.log(err));
+        .catch(e => {
+            console.log(e);
+        });
 
         if(isUserLoggedCorrectly) {
             await SecureStore.setItemAsync(loggedUserKey, login);
@@ -52,9 +53,9 @@ export default class IdentityManager {
     }
 
     static async Register(login: string, password: string, repeatedPassword: string) {
-        // if(password != repeatedPassword) {
-        //     return false;
-        // };
+        if(password != repeatedPassword) {
+            return false;
+        };
 
         let isUserRegisteredCorrectly : boolean = false;
         await fetch(fetchDest + '/register', {
@@ -68,11 +69,11 @@ export default class IdentityManager {
                 password: password
             })
         }).then((res) => {
-            console.log(JSON.stringify(res));
-            console.log(res.status);
             isUserRegisteredCorrectly = res.status == 200;
         })
-        .catch((err) => console.log(err));
+        .catch(e => {
+            console.log(e);
+        });
 
         return isUserRegisteredCorrectly;
     }

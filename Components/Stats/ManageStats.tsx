@@ -32,14 +32,13 @@ const ManageStats = ({route} : {route : any}) => {
             MatchHistoryManager.getMatchStatsForMatch(route.params.matchInfo.id)
             .then((res) => {
                 let stats = res as Map<StatsType, number>[][];
-                console.log(stats[0], stats[1]);
                 setPlayerAStats(stats[0]);
                 setPlayerBStats(stats[1]);
+
                 setAreStatsFetched(true);
-                console.log("no skonczylem fetchowac")
             })
-            .catch((err) => {
-                console.log(`ERROR ${err}`);
+            .catch((e) => {
+                console.log(e);
             });
     }, []));
 
@@ -58,7 +57,6 @@ const ManageStats = ({route} : {route : any}) => {
     };
 
     const deleteMatch = () => {
-        console.log(`Match with id: ${route.params.matchInfo.id} to be deleted`);
         MatchHistoryManager.deleteMatchFromHistory(route.params.matchInfo.id);
         navigation.navigate("Account");
     };

@@ -22,6 +22,9 @@ const LoginPanel = () => {
     };
 
     const redirectToRegister = () => {
+        setLogin("");
+        setPassword("");
+        setErrorString("");
         navigation.navigate('Register');
     };
 

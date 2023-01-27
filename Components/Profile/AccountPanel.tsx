@@ -34,17 +34,16 @@ const AccountPanel = () => {
             .then((res) => {
                 setMatchHistory(res as MatchRecord[]);
             })
-            .catch((err) => {
-                console.log(err);
+            .catch(e => {
+                console.log(e);
             });
 
             IdentityManager.loggedUser()
             .then((res) => {
                 setLoggedUser(res);
             })
-            .catch((err) => {
-                console.error("Logged user cannot be fetched");
-                console.log(err);
+            .catch(e => {
+                console.log(e);
             });
 
             setCreateNewMatchVisible(false);
@@ -59,8 +58,6 @@ const AccountPanel = () => {
     const getShowMatchStatsCallback = (matchId : number) => {
         return async () => {
             let stats = await MatchHistoryManager.getMatchStatsForMatch(matchId);
-            console.log(stats);
-            console.log(matchId);
             toStatsNavigation.navigate('Stats', {
                 matchInfo: matchHistory.find(match => match.id == matchId)
             });

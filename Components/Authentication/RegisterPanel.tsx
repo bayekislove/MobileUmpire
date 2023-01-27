@@ -17,32 +17,39 @@ const RegisterPanel = () => {
     const navigation = useNavigation<RegisterNavigation>()
 
     const redirectToLogin = () => {
+        setLogin("");
+        setPassword("");
+        setErrorString("");
+        setPasswordConfirmation("");
         navigation.navigate('Login');
     };
 
     const passwordHasNumber = () => {
-        console.log(password)
         return /[0-9]/.test(password);
     };
 
     const onRegisterClick = async () => {
         setErrorString("");
-        // if(password.length < 7) {
-        //     setErrorString("Password has to be longer than 7 characters!");
-        //     return;
-        // }
-        // else if(password.toLowerCase() == password) {
-        //     setErrorString("Password has have at least one capital letter!");
-        //     return;
-        // }
-        // else if(!passwordHasNumber()) {
-        //     setErrorString("Password has have at least one number!");
-        //     return;
-        // }
-        // else if(password != passwordConfirmation) {
-        //     setErrorString("Passwords have to be exact!");
-        //     return;
-        // }
+        if(login.length < 6) {
+            setErrorString("Username has to be longer than 6 characters!");
+            return;
+        }
+        if(password.length < 7) {
+            setErrorString("Password has to be longer than 7 characters!");
+            return;
+        }
+        else if(password.toLowerCase() == password) {
+            setErrorString("Password has have at least one capital letter!");
+            return;
+        }
+        else if(!passwordHasNumber()) {
+            setErrorString("Password has have at least one number!");
+            return;
+        }
+        else if(password != passwordConfirmation) {
+            setErrorString("Passwords have to be exact!");
+            return;
+        }
 
         if(await IdentityManager.Register(login, password, passwordConfirmation)){
             setErrorString("");

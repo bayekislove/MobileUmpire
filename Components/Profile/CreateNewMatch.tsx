@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, Button, TextInput, Modal } from 'react-native';
 import RoundPicker from './RoundPicker';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import SetsNumberPicker from './SetsNumberPicker';
 
 type CreateNewMatchType = {
     isVisible: boolean,
@@ -21,6 +22,7 @@ const CreteNewMatch = (props : CreateNewMatchType) => {
     const [playerBName, setPlayerBName] = React.useState("");
     const [tournamentName, setTournamentName] = React.useState("");
     const [tournamentRound, setTournamentRound] = React.useState("");
+    const [numberOfSets, setNumberOfSets] = React.useState(0);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -28,14 +30,19 @@ const CreteNewMatch = (props : CreateNewMatchType) => {
            setPlayerBName("");
            setTournamentName("");
            setTournamentRound("");
+           setNumberOfSets(0);
     }, []));
 
     const startNewMatch = () => {
+        if(playerAName == "" || playerBName == "" || numberOfSets == 0) {
+            return;
+        };
         toMatchNavigation.navigate('Match', {
             playerAName: playerAName,
             playerBName: playerBName,
             tournamentName: tournamentName,
             tournamentRound: tournamentRound,
+            numberOfSets: numberOfSets,
             date: new Date().toDateString(),
             matchStart: new Date().getTime() / 1000
         });
@@ -58,6 +65,9 @@ const CreteNewMatch = (props : CreateNewMatchType) => {
             
             <Text style={styles.descriptionStyle}>{"Round:"}</Text>
             <RoundPicker reportValue={setTournamentRound} />
+
+            <Text style={styles.descriptionStyle}>{"Number of sets:"}</Text>
+            <SetsNumberPicker reportValue={setNumberOfSets} />
 
             <View style={styles.buttonsContainer}>
                 <View style={styles.button}>

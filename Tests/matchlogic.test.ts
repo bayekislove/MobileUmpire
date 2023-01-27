@@ -6,7 +6,7 @@ import PointResult from '../Logic/PointsCounting/PointResult';
 
 describe('MatchLogic', () => {
     it('decreases challanges correctly at set start', () => {
-        let matchLogic = new MatchLogic();
+        let matchLogic = new MatchLogic(3);
         matchLogic.decreaseChallanges(Player.PLAYER_A);
         expect(matchLogic.playerAChallanges).toBe(2);
         matchLogic.decreaseChallanges(Player.PLAYER_B);
@@ -14,7 +14,7 @@ describe('MatchLogic', () => {
     });
 
     it('decreases challanges correctly at set start', () => {
-        let matchLogic = new MatchLogic();
+        let matchLogic = new MatchLogic(3);
         for(let _ = 0; _ < 20; _++) {
             matchLogic.handlePointResult(PointResult.WINNER, Player.PLAYER_A);
         }
@@ -32,7 +32,7 @@ describe('MatchLogic', () => {
     });
 
     it('decreases challanges correctly at set start', () => {
-        let matchLogic = new MatchLogic();
+        let matchLogic = new MatchLogic(3);
         for(let _ = 0; _ < 20; _++) {
             matchLogic.handlePointResult(PointResult.WINNER, Player.PLAYER_A);
         }
@@ -55,7 +55,7 @@ describe('MatchLogic', () => {
     });
 
     it('increases challanges correctly at set start', () => {
-        let matchLogic = new MatchLogic();
+        let matchLogic = new MatchLogic(3);
         for(let _ = 0; _ < 20; _++) {
             matchLogic.handlePointResult(PointResult.WINNER, Player.PLAYER_A);
         }

@@ -6,7 +6,7 @@ import { Player } from '../../Logic/PointsCounting/Player';
 import ServePanel from './ServePanel';
 import { PlayerScore } from './PlayerScore';
 import ChallangePanel from './ChallangePanel';
-import StatResultButtons from '../Stats/StatResultButtons';
+import StatResultButtons from './StatResultButtons';
 import StatsPanel, { getMatchResult } from '../Stats/StatsPanel';
 import MatchHistoryManager, { MatchRecord } from '../../Logic/MatchHistoryManager';
 import MatchLogic from '../../Logic/MatchLogic';
@@ -23,20 +23,19 @@ const MatchPanel = ({route} : {route : any}) => {
     const navigate = useNavigation<ToAccountNavigation>();
 
     const [statsShown, setStatsShown] = React.useState(false);
-    const [matchCounter, _] = React.useState<MatchLogic>(new MatchLogic());
+    const [matchCounter, _] = React.useState<MatchLogic>(
+        new MatchLogic(route.params.numberOfSets));
     const [updateComponent, setUpdateComponent] = React.useState(0);
 
     const getElapsedSeconds = () : number => {
         const matchStart : number = route.params.matchStart;
         const now : number = new Date().getTime() / 1000;
-        console.log(matchStart, now);
         return now - matchStart;
     };
 
     const formatSecondsToStr = (seconds : number) : string => {
         const hours : string = `${Math.floor(seconds / 3600)}`;
         const minutes : string = `${Math.floor(seconds / 60)}`;
-        console.log(seconds, `${hours}:${minutes.padStart(2, '0')}`);
         return `${hours}:${minutes.padStart(2, '0')}`;
     };
 
@@ -132,6 +131,14 @@ const MatchPanel = ({route} : {route : any}) => {
                         setUpdateComponent(updateComponent + 1);
                     }}
                 />
+                <View style={styles.playersNamesInfoContainer}>
+                    <Text style={styles.buttonsForPlayersInfo}>
+                        {route.params.playerAName}
+                    </Text>
+                    <Text style={styles.buttonsForPlayersInfo}>
+                        {route.params.playerBName}
+                    </Text>
+                </View>
                 <StatResultButtons 
                     onHandleFunction={getPointResultFunction(PointResult.WINNER)}
                     buttonTitle={'       Winner      '}
@@ -182,6 +189,16 @@ const styles = StyleSheet.create({
 
     matchInfo: {
         marginVertical: 5,
+        fontSize: 20,
+    },
+
+    playersNamesInfoContainer : {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+
+    buttonsForPlayersInfo: {
+        marginVertical: 1,
         fontSize: 20,
     }
 });

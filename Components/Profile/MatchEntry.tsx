@@ -8,10 +8,11 @@ type MatchEntryProps = {
 }
 
 export const getTournamentInfo = (round : string, tournament : string) => {
-    if(round == "" || tournament == "") {
-        return "";
-    }
-    else {
+    if(round == "" && tournament != "") {
+        return `${tournament}`;
+    } else if(round != "" && tournament == "") {
+        return `${round}`;
+    } else {
         return `${round} of ${tournament}`;
     }
 };
